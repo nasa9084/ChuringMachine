@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #TuringMachine
 プログラムとテープをtxtファイルで読み込んで動作するチューリングマシンです。
 
@@ -19,3 +20,8 @@ $./a.out Program.txt Tape.txt
 テープの内容  
 
 となっています。
+
+
+=======
+# ChuringMachine
+>>>>>>> 77a4263bd56465d6eb1a75e9dd8da6fb393d1ef2
