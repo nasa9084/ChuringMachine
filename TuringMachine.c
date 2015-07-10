@@ -29,6 +29,7 @@ Tape* printTape(Tape*);
 Tape* runProgram(Program*, Tape*);
 void printProgress(int, int, String, Tape*);
 bool moveHead(String, int*);
+bool transState(String, int*);
 
 int main(int argc, char *argv[]){
   FILE *progfp, *inputfp;
@@ -164,13 +165,8 @@ Tape* runProgram(Program* prog, Tape* input){
     if((moveHead(transFunc, &currentPos))==false){
       return NULL;
     }
-    if(transFunc[2]=='F'){
-      currentState = -1;
-    }else if(transFunc[2]=='S'){
-      currentState = 0;
-    }else{
-      currentState = atoi(&transFunc[2]);
-    }
+    transState(transFunc, &currentState);
+
   }
 
   return output;
@@ -203,4 +199,15 @@ bool moveHead(String transFunc, int* currentPos){
       return false;
     }
     return true;
+}
+
+bool transState(String transFunc, int* currentState){
+  if(transFunc[2]=='F'){
+    (*currentState) = -1;
+  }else if(transFunc[2]=='S'){
+    (*currentState) = 0;
+  }else{
+    (*currentState) = atoi(&transFunc[2]);
+  }
+  return true;
 }
