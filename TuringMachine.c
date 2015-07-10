@@ -28,6 +28,7 @@ Program* printProgram(Program*);
 Tape* printTape(Tape*);
 Tape* runProgram(Program*, Tape*);
 void printProgress(int, int, String, Tape*);
+bool moveHead(String, int*);
 
 int main(int argc, char *argv[]){
   FILE *progfp, *inputfp;
@@ -160,16 +161,7 @@ Tape* runProgram(Program* prog, Tape* input){
       printProgress(currentState, currentPos, transFunc, output);
     }
     output->str[currentPos] = transFunc[0];
-    if(transFunc[1]=='L'){
-      if(currentPos!=0){
-        currentPos--;
-      }else{
-        return NULL;
-      }
-    }else if(transFunc[1]=='R'){
-      currentPos++;
-    }else if(transFunc[1]=='N'){
-    }else{
+    if((moveHead(transFunc, &currentPos))==false){
       return NULL;
     }
     if(transFunc[2]=='F'){
@@ -195,4 +187,20 @@ void printProgress(int currentState, int currentPos, String transFunc, Tape* out
   }
   printf("^\n");
   printf("TransFunc: %s\n\n", transFunc);
+}
+
+bool moveHead(String transFunc, int* currentPos){
+    if(transFunc[1]=='L'){
+      if(*currentPos!=0){
+        (*currentPos)--;
+      }else{
+        return false;
+      }
+    }else if(transFunc[1]=='R'){
+      (*currentPos)++;
+    }else if(transFunc[1]=='N'){
+    }else{
+      return false;
+    }
+    return true;
 }
