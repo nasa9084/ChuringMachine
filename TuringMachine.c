@@ -208,6 +208,9 @@ bool transState(String transFunc, int* currentState){
     (*currentState) = 0;
   }else{
     (*currentState) = atoi(&transFunc[2]);
+    if(strcmp("0", &transFunc[2])!=0 && *currentState==0){
+      return false;
+    }
   }
   return true;
 }
