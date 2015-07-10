@@ -165,7 +165,9 @@ Tape* runProgram(Program* prog, Tape* input){
     if((moveHead(transFunc, &currentPos))==false){
       return NULL;
     }
-    transState(transFunc, &currentState);
+    if((transState(transFunc, &currentState))==false){
+      return NULL;
+    }
 
   }
 
