@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include "./StringFunc.h"
+#include "StringFunc.h"
 
 #define FOPEN_ERR "File open error is occured."
 #define MALLOC_ERR "Memory allocation error is occured."
@@ -27,7 +27,7 @@ Tape* makeTape(FILE*);
 Program* printProgram(Program*);
 Tape* printTape(Tape*);
 Tape* runProgram(Program*, Tape*);
-
+void printProgress(int, int, String, Tape*);
 
 int main(int argc, char *argv[]){
   FILE *progfp, *inputfp;
@@ -147,7 +147,6 @@ Tape* runProgram(Program* prog, Tape* input){
 
   printTape(input);
 
-
   while(currentState!=-1){
     readChar = input->str[currentPos];
     for(symbol=0; symbol<prog->num_of_symbols; symbol++){
@@ -158,15 +157,7 @@ Tape* runProgram(Program* prog, Tape* input){
     transFunc = prog->program[currentState][symbol];
     //debugmodeがオンなら経過を表示
     if(prog->debugmode){
-      printf("CurrentState: %d / ", currentState);
-      printf("CurrentPos: %d\n", currentPos);
-      printTape(output);
-      printf("       ");
-      for(i=0; i<currentPos; i++){
-        printf(" ");
-      }
-      printf("^\n");
-      printf("TransFunc: %s\n\n", transFunc);
+      printProgress(currentState, currentPos, transFunc, output);
     }
     output->str[currentPos] = transFunc[0];
     if(transFunc[1]=='L'){
@@ -191,4 +182,17 @@ Tape* runProgram(Program* prog, Tape* input){
   }
 
   return output;
+}
+
+void printProgress(int currentState, int currentPos, String transFunc, Tape* output){
+  int i;
+  printf("CurrentState: %d / ", currentState);
+  printf("CurrentPos: %d\n", currentPos);
+  printTape(output);
+  printf("       ");
+  for(i=0; i<currentPos; i++){
+    printf(" ");
+  }
+  printf("^\n");
+  printf("TransFunc: %s\n\n", transFunc);
 }
